@@ -18,20 +18,47 @@ function loadTasks() {
 function createItem(item) {
 	const template = document.getElementById("to-do__item-template");
 	const clone = template.content.querySelector(".to-do__item").cloneNode(true);
-  const textElement = clone.querySelector(".to-do__item-text");
-  const deleteButton = clone.querySelector(".to-do__item-button_type_delete");
-  const duplicateButton = clone.querySelector(".to-do__item-button_type_duplicate");
-  const editButton = clone.querySelector(".to-do__item-button_type_edit");
+	const textElement = clone.querySelector(".to-do__item-text");
+	const deleteButton = clone.querySelector(".to-do__item-button_type_delete");
+	const duplicateButton = clone.querySelector(".to-do__item-button_type_duplicate");
+	const editButton = clone.querySelector(".to-do__item-button_type_edit");
+	editButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        const index = items.indexOf(textElement.textContent);
+        textElement.contentEditable = 'true';
+        textElement.focus();
+        textElement.addEventListener('blur', function(event) {
+            event.preventDefault();
+            textElement.contentEditable = 'false';
+            items[index] = textElement.textContent;
+            saveTasks(items);
+        })
+    })
 
+    deleteButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        items.splice(items.indexOf(textElement.textContent), 1);
+        clone.remove();
+        saveTasks(items);
+    })
+
+    duplicateButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        createItem(textElement.textContent);
+    })
+
+    textElement.textContent = item;
+    document.querySelector(".to-do__list").prepend(clone);
+    items = getTasksFromDOM();
+    saveTasks(items);
 }
 
-function getTasksFromDOM() {
-
-}
 
 function saveTasks(tasks) {
 
 }
+
+
 
 function getTasksFromDOM() {
     const itemsNamesElements = document.querySelectorAll(".to-do__item-text");
