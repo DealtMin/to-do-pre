@@ -11,8 +11,29 @@ const listElement = document.querySelector(".to-do__list");
 const formElement = document.querySelector(".to-do__form");
 const inputElement = document.querySelector(".to-do__input");
 
-function loadTasks() {
+items = loadTasks();
+items.forEach(function(item) {
+	createItem(item);
+})
 
+formElement.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    createItem(inputElement.value);
+    items = getTasksFromDOM();
+    saveTasks(items);
+    
+    inputElement.value = '';
+});
+
+
+function loadTasks() {
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+      return [...JSON.parse(savedTasks)].reverse();
+    } else {
+      return items;
+    }
 }
 
 function createItem(item) {
