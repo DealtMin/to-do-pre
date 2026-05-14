@@ -74,13 +74,6 @@ function createItem(item) {
     saveTasks(items);
 }
 
-
-function saveTasks(tasks) {
-
-}
-
-
-
 function getTasksFromDOM() {
     const itemsNamesElements = document.querySelectorAll(".to-do__item-text");
     const tasks = [];
