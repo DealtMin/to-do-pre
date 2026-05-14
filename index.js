@@ -33,3 +33,18 @@ function saveTasks(tasks) {
 
 }
 
+function getTasksFromDOM() {
+    const itemsNamesElements = document.querySelectorAll(".to-do__item-text");
+    const tasks = [];
+    itemsNamesElements.forEach(function(item) {
+        tasks.push(item.textContent);
+    })
+    return tasks;
+}
+
+function saveTasks(tasks) {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    if (tasks.length === 0)
+        localStorage.removeItem('tasks');
+}
+
